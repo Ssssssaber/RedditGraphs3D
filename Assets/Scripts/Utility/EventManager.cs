@@ -5,7 +5,8 @@ using UnityEngine.Events;
 
 public static class EventManager
 {
-    public static readonly UnityEvent OnCommentsLoaded = new UnityEvent();
+    public static readonly UnityEvent OnCommentsDownloadStart = new UnityEvent();
+    public static readonly UnityEvent OnCommentDownloadEnd = new UnityEvent();
 
     
 }

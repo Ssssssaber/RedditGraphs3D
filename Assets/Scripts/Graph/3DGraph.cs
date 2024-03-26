@@ -8,8 +8,8 @@ public class Graph3D : MonoBehaviour
     [SerializeField] private List<Material> materials;
     // [SerializeField] private List<Transform> groups;
     [SerializeField] private Dictionary<string, DotsGroup> dotGroups = new Dictionary<string, DotsGroup>();
-    // [SerializeField] private Dictionary<string, Material
-    [SerializeField] private DotsGroup dotsGroupPrefab;
+    [SerializeField] private Transform panelForGroups;
+    [SerializeField] private GroupPanel groupPanelPrefab;
     private Transform graphOrigin;
     private Transform AxisX;
     private Transform AxisY;
@@ -31,47 +31,29 @@ public class Graph3D : MonoBehaviour
         
     }
 
-    public void ToggleGroup(string groupName)
-    {
-        // DotGroup group = (DotGroup) DotGroup.Parse(typeof(DotGroup), name);
-        // Debug.Log(group.ToString() + groups[(int)group].gameObject.activeSelf.ToString());
-        dotGroups[groupName].gameObject.SetActive(!dotGroups[groupName].gameObject.activeSelf);
-    }
-
-    private void DestroyChildren()
-    {
-        foreach (var group in dotGroups.Values)
-        {
-            foreach (Transform child in group.transform)
-            {
-                Destroy(child.gameObject);
-            }
-        }
-        
-    }
-
-    private void SetLabels(List<DotInfo> dots)
-    {
-        
-    }
-
     public void GenerateData()
     {
         globalDots.Clear();
-        DestroyChildren();
 
-        GenerateDotsGlobal(10, new Vector3(0, 0, 0), new Vector3(10, 10, 10), "Red");
-        GenerateDotsGlobal(15, new Vector3(20, 20, 20), new Vector3(40, 40, 40), "Green");
-        GenerateDotsGlobal(15, new Vector3(10, 10, 10), new Vector3(20, 20, 0), "Blue");
+        GenerateDotsGlobal(10, new Vector3(0, 0, 0), new Vector3(10, 10, 10), "Group 1");
+        GenerateDotsGlobal(15, new Vector3(20, 20, 20), new Vector3(40, 40, 40), "Group 2");
+        GenerateDotsGlobal(15, new Vector3(10, 10, 10), new Vector3(20, 20, 0), "Group 3");
         
         ShowGraph(globalDots);
     }
 
-    private void GenerateDotsGlobal(int count, Vector3 min, Vector3 max, string groupName)
+    private void GenerateDotsGlobal(int count, Vector3 min, Vector3 max, string groupName, bool replace = true)
     {
         if (!dotGroups.ContainsKey(groupName))
         {
             CreateNewDotGroup(groupName);
+        }
+        if (replace)
+        {
+            foreach (Transform child in dotGroups[groupName].transform)
+            {
+                Destroy(child.gameObject);
+            }
         }
         for (int i = 0; i < count; i++)
         {
@@ -82,7 +64,7 @@ public class Graph3D : MonoBehaviour
     }
 
     private void CreateNewDotGroup(string groupName)
-    {
+    {   
         GameObject newGroupOrigin = Instantiate(new GameObject($"{groupName} origin"), graphOrigin.transform.position, Quaternion.identity, graphOrigin.transform);
         DotsGroup group = newGroupOrigin.AddComponent<DotsGroup>();
         Material dotMaterial = new Material(Shader.Find("Standard"))
@@ -90,8 +72,10 @@ public class Graph3D : MonoBehaviour
             color = RandomColor()
         };
         group.SetParams(groupName, dotMaterial);
-        
         dotGroups.Add(groupName, group);
+
+        GroupPanel panel = Instantiate(groupPanelPrefab, panelForGroups);
+        dotGroups[groupName].AttachPanel(panel);
     }
 
     private Color32 RandomColor(float min = 0f, float max = 1f)
@@ -103,28 +87,28 @@ public class Graph3D : MonoBehaviour
         );
     }
 
-    public void Plot(Vector3[] dots, string groupName)
+    public void Plot(Vector3[] dots, string groupName, bool replace = true)
     {
         if (!dotGroups.ContainsKey(groupName))
         {
             CreateNewDotGroup(groupName);
         }
-        else
+        
+        if (replace)
         {
-            foreach(Vector3 coords in dots)
+            foreach (Transform child in dotGroups[groupName].transform)
             {
-                DrawDot(new DotInfo(coords, dotGroups[groupName]));
+                Destroy(child.gameObject);
             }
+        }
+
+        foreach(Vector3 coords in dots)
+        {
+            DrawDot(new DotInfo(coords, dotGroups[groupName]));
         }
     }
 
-    private void ShowGraph(double[][] values)
-    {
-        foreach(var coords in values)
-        {
-            
-        }
-    }
+    
     /* TODO: 
         - automatically create groups
         - automatically create materials

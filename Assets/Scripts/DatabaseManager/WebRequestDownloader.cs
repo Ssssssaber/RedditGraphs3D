@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
-using UnityEditor.PackageManager;
 using UnityEngine.Networking;
+using Unity.VisualScripting;
+using System.Linq;
 
 [Serializable]
 public class CommentData
@@ -21,8 +22,23 @@ public class CommentData
 [Serializable]
 public class RedditComment
 {
-    public readonly int id;
-    public readonly string text;
+    public int id;
+    public string text;
+
+    public RedditComment()
+    {
+
+    }
+    public RedditComment(int id, string text)
+    {
+        this.id = id;
+        this.text = text;
+    }
+    public RedditComment(string id, string text)
+    {
+        this.id = Int32.Parse(id);
+        this.text = text;
+    }
 }
 [Serializable]
 public class DownloadError
@@ -45,22 +61,38 @@ public enum RequestType
 }
 
 [RequireComponent(typeof(CoroutinesQueue))]
-public class CommentsDownloader : MonoBehaviour
+public class WebRequestDownloader : MonoBehaviour
 {
+    public static WebRequestDownloader instance {private set; get;}
     [SerializeField] private string targetURL;
     [SerializeField] private List<RedditComment> downloadedComments;
     private CoroutinesQueue coroutines;
-    private int desiredCommentCount;
+    public int desiredCommentCount;
+    public int downloadedCommentsCount => downloadedComments.Count;
 
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         coroutines = GetComponent<CoroutinesQueue>();
     }
 
     // Start is called before the first frame update
     private void Start()
     {
-        DownloadAllComments();
+        // DownloadAllComments();
+    }
+
+    public List<RedditComment> GetComments()
+    {
+        return downloadedComments;
     }
 
     public static CommentData GetCardData(string data)
@@ -90,7 +122,8 @@ public class CommentsDownloader : MonoBehaviour
 
         if (downloadedComments.Count == desiredCommentCount)
         {
-            // EventManager.AllCardsLoaded(LoadedCards);
+            EventManager.OnCommentDownloadEnd?.Invoke();
+            StopCoroutine("UpdateLoadingBar");
         }
     }
 
@@ -107,6 +140,7 @@ public class CommentsDownloader : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("request-type", RequestType.DownloadAll.ToString());
         coroutines.Enqueue(SendRequest(form, RequestType.DownloadAll));
+        EventManager.OnCommentsDownloadStart?.Invoke();
     }
 
     public void EnqueueDownloads()
@@ -124,6 +158,8 @@ public class CommentsDownloader : MonoBehaviour
         form.AddField("id", id);
         coroutines.Enqueue(SendRequest(form, RequestType.Download));
     }
+
+    
     
 
     IEnumerator SendRequest(WWWForm form, RequestType requestType)
@@ -150,7 +186,7 @@ public class CommentsDownloader : MonoBehaviour
                     // go.text = pages[page] + ": HTTP Error: " + request.error;
                     break;
                 case UnityWebRequest.Result.Success:
-                    Debug.Log(pages[page] + ":\nReceived: " + request.downloadHandler.text);
+                    // Debug.Log(pages[page] + ":\nReceived: " + request.downloadHandler.text);
                     // go.text = pages[page] + ":\nReceived: " + webRequest.downloadHandler.text;
                     HandleRequest(request, requestType);
                     break;
@@ -167,6 +203,7 @@ public class CommentsDownloader : MonoBehaviour
                 break;
             case (RequestType.DownloadAll):
                 desiredCommentCount = Int32.Parse(request.downloadHandler.text);
+                        // StartCoroutine("UpdateLoadingBar");
                 EnqueueDownloads();
                 break;
             case (RequestType.Download):
@@ -177,6 +214,12 @@ public class CommentsDownloader : MonoBehaviour
                     break;
                 }
                 RedditComment comment = temp.redditComment;
+
+
+                // float up = WebRequestDownloader.instance.downloadedCommentsCount; 
+                // float down = WebRequestDownloader.instance.desiredCommentCount;
+                // float res = up / down;
+                // LoadingPanel.instance.SetLoadingScale(res);
                 HandleDownload(comment);
                 break;
             default:

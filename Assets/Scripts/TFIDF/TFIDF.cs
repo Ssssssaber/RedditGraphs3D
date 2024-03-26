@@ -1,7 +1,7 @@
 using Accord.MachineLearning;
 using Accord.Statistics.Analysis;
 using UnityEngine;
-
+delegate double[][] TextAnalysisMethod(string[] texts);
 public static class TextAnalysis
 {
     private static void Keke()
@@ -62,21 +62,19 @@ public static class TextAnalysis
         var result = PCA.Transform(tfidfVectors);
     }
 
-    public static double[][] TextBOW(string[] texts)
+    public static double[][] AnalysisBOW(string[] texts)
     {
         string[][] words = texts.Tokenize();
 
         // Create a new TF-IDF with options:
         var codebook = new BagOfWords()
         {
-            MaximumOccurance = 1 // the resulting vector will have only 0's and 1's
+            // the resulting vector will have only 0's and 1's
         };
 
         // Compute the codebook (note: this would have to be done only for the training set)
         codebook.Learn(words);
 
-        // Now, we can use the learned codebook to extract fixed-length
-        // representations of the different texts (paragraphs) above:
 
         double[][] bowVectors = new double[words.Length][];
         for (int i = 0; i < words.Length; i++)
@@ -88,11 +86,12 @@ public static class TextAnalysis
         PCA.Learn(bowVectors);
         PCA.NumberOfOutputs = 3;
         var result = PCA.Transform(bowVectors);
-
         return result;
     }
 
-    public static double[][] TextTFIDF(string[] texts)
+    
+
+    public static double[][] AnalysisTFIDF(string[] texts)
     {
         string[][] words = texts.Tokenize();
 
@@ -115,12 +114,10 @@ public static class TextAnalysis
             tfidfVectors[i] = codebook.Transform(words[i]);
         }
         
-        // PrincipalComponentAnalysis PCA = new PrincipalComponentAnalysis(PrincipalComponentMethod.Center);
-        // PCA.Learn(tfidfVectors);
-        // PCA.NumberOfOutputs = 3;
-        // var result = PCA.Transform(tfidfVectors);
-
-        var result = PrincipalComponentAnalysis.Reduce(tfidfVectors, 3);
+        PrincipalComponentAnalysis PCA = new PrincipalComponentAnalysis(PrincipalComponentMethod.Center);
+        PCA.Learn(tfidfVectors);
+        PCA.NumberOfOutputs = 3;
+        var result = PCA.Transform(tfidfVectors);
 
         return result;
     }

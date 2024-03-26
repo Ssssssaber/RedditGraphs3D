@@ -8,14 +8,14 @@ using System.Drawing;
 using UnityEditor;
 using TMPro;
 
-public class MySqlConnector : MonoBehaviour
+public class MySqlConnector : MonoBehaviour, IDatabaseConnector
 {
-    string server = "localhost";
-    string database = "reddit_parsing";
-    string uid = "root";
-    string password = "";
-    MySqlConnection connection;
-    
+    private string server = "localhost";
+    private string database = "reddit_parsing";
+    private string uid = "root";
+    private string password = "";
+    private MySqlConnection connection;
+    private List<RedditComment> comments = new List<RedditComment>();
     public void OpenConneciton()
     {
         try
@@ -36,14 +36,19 @@ public class MySqlConnector : MonoBehaviour
         }
     }
 
-    public List<string> ReadComments()
+    public List<RedditComment> GetComments()
+    {
+        return comments;
+    }
+
+    public void DownloadAllComments()
     {
         if (connection == null)
         {
             OpenConneciton();
         }
 
-        List<string> comments = new List<string>(); 
+         
 
         string query = "SELECT * FROM submission_comment";
 
@@ -52,13 +57,14 @@ public class MySqlConnector : MonoBehaviour
         MySqlDataReader MS_Reader = MS_Command.ExecuteReader();
         while (MS_Reader.Read() )
         {
+            RedditComment comment = new RedditComment(MS_Reader.GetString(0), MS_Reader.GetString(3));
+            comments.Add(comment);
             // Debug.Log(MS_Reader.GetString(3));    
-            comments.Add(MS_Reader.GetString(3));
+            // comments.Add(MS_Reader.GetString(3));
         }
         MS_Reader.Close();
 
-        EventManager.OnCommentsLoaded?.Invoke();
-        return comments;
+        EventManager.OnCommentDownloadEnd?.Invoke();
     }
 
     private void OnApplicationQuit()
