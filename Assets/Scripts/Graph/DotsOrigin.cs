@@ -12,6 +12,7 @@ public class DotsGroup : MonoBehaviour
     
     private void Start()
     {
+        // const Material mat = new Material(); 
         SetInitialPos();
         panelUI.colorPicker.ColorPickerEvent.AddListener(ChangeGroupColor);
     }

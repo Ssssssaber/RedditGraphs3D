@@ -35,7 +35,7 @@ public class AppManager : MonoBehaviour
         // EventManager.OnCommentsLoaded.AddListener(UIController.instance.DeactivateButton("BOW"));
         EventManager.OnCommentDownloadEnd.AddListener(NotifyCommentsLoaded);
         EventManager.OnCommentDownloadEnd.AddListener(ActivateBOW);
-        EventManager.OnCommentDownloadEnd.AddListener(ActivateTFIDF);
+        // EventManager.OnCommentDownloadEnd.AddListener(ActivateTFIDF);
         EventManager.OnCommentDownloadEnd.AddListener(HideLoading);
         
         DeactivateBOW();
@@ -94,7 +94,7 @@ public class AppManager : MonoBehaviour
 
     public void PerformTFIDF()
     {
-        resultTFIDF = AnalyseText(commentsText, 100, TextAnalysis.AnalysisTFIDF, "TFIDF");
+        resultTFIDF = AnalyseText(commentsText, 10, TextAnalysis.AnalysisTFIDF, "TFIDF");
     }
 
     public void PerformBOW()
