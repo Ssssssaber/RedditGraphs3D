@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GroupToggler : MonoBehaviour
 {
-    private DotsGroup dotsGroup;
+    private DotGroup dotsGroup;
     // Start is called before the first frame update
     void Start()
     {

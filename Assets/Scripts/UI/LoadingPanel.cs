@@ -23,24 +23,27 @@ public class LoadingPanel : MonoBehaviour
         }
 
         originalSize = mask.rect.width;
-        EventManager.OnCommentsDownloadStart.AddListener(StartLoadingBarUpdate);
-        EventManager.OnCommentDownloadEnd.AddListener(StopLoadingBarUpdate);
+        
     }
 
     private void Start()
     {
+        EventManager.OnCommentsDownloadStart.AddListener(StartLoadingBarUpdate);
+        EventManager.OnCommentDownloadEnd.AddListener(StopLoadingBarUpdate);
         
 
     }
 
     private void StartLoadingBarUpdate()
     {
+        this.SetActive(true);
         StartCoroutine("UpdateLoadingBar");
     }
 
     private void StopLoadingBarUpdate()
     {
         StopCoroutine("UpdateLoadingBar");
+        this.SetActive(false);
     }
 
     private IEnumerator UpdateLoadingBar()

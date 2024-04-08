@@ -30,7 +30,7 @@ public class Notifier : MonoBehaviour
     {
         GameObject notification = Instantiate(notificationGameObject, notificationList);
         TMP_Text text = notification.GetComponentInChildren<TMP_Text>();
-        text.text = $"Notification: {notificationText}";
+        text.text = $"{System.DateTime.Now.ToString("[HH:mm:ss]")} Notification : {notificationText}";
     }
 
     // Update is called once per frame

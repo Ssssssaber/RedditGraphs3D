@@ -3,18 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DotsGroup : MonoBehaviour
+public class DotGroup : MonoBehaviour
 {
+    // TODO: ALLOW DYNAMICALLY CHANGE SCALE
     public string groupName {get; private set;}
     public Material groupMaterial {get; private set;}
-    public GroupPanel panelUI {get; private set;}
+    private GroupPanel panelUI;
+
     private List<Vector3> initialPositions = new List<Vector3>();
-    
-    private void Start()
+    private void Awake()
     {
-        // const Material mat = new Material(); 
+    }
+
+    public void SubscribeToStopRecieveingData()
+    {
+        EventManager.OnStopReceivingData.AddListener(EndAddingNewDots);
+    }
+
+    public void BeginAddingNewDots()
+    {
+        panelUI.DisableInteraction();
+    }
+    public void EndAddingNewDots()
+    {
+        panelUI.EnableInteraction();
         SetInitialPos();
-        panelUI.colorPicker.ColorPickerEvent.AddListener(ChangeGroupColor);
     }
 
     private void ChangeGroupColor(Color color)
@@ -24,9 +37,10 @@ public class DotsGroup : MonoBehaviour
 
     private void SetInitialPos()
     {
-        foreach (Transform child in transform)
+        initialPositions = new List<Vector3>();
+        for (int i = 0; i < transform.childCount; i++)
         {
-            initialPositions.Add(child.transform.position);
+            initialPositions.Add(transform.GetChild(i).transform.position);
         }
     }
 
@@ -34,6 +48,8 @@ public class DotsGroup : MonoBehaviour
     {
         panelUI = group;
         panelUI.Setup(groupName, ChangeScale, ToggleGroup, groupMaterial.color);
+        panelUI.colorPicker.ColorPickerEvent.AddListener(ChangeGroupColor);
+        BeginAddingNewDots();
     }
 
     public void SetParams(string groupName, Material material)
@@ -45,7 +61,6 @@ public class DotsGroup : MonoBehaviour
     public void ToggleGroup(bool value)
     {
         gameObject.SetActive(value);
-        Debug.Log("eheehehe");
     }
 
     public void ChangeScale(string inputScale)
@@ -58,9 +73,10 @@ public class DotsGroup : MonoBehaviour
 
     public void ChangeScale(float newScale)
     {
+        var ini = initialPositions;
         for (int i = 0; i < transform.childCount; i++)
         {
-            transform.GetChild(i).transform.position = initialPositions[i] * newScale;
+            transform.GetChild(i).transform.position = ini[i] * newScale;
         }
     }
 

@@ -1392,9 +1392,17 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -112
       objectReference: {fileID: 0}
+    - target: {fileID: 4124098727377059786, guid: f7b808648628c03439ae765cdbca4443, type: 3}
+      propertyPath: colorPickButton
+      value: 
+      objectReference: {fileID: 645644355977121042}
     - target: {fileID: 4256418095598865946, guid: f7b808648628c03439ae765cdbca4443, type: 3}
       propertyPath: m_Name
       value: ColorPicker
+      objectReference: {fileID: 0}
+    - target: {fileID: 4841312922337918335, guid: f7b808648628c03439ae765cdbca4443, type: 3}
+      propertyPath: m_Interactable
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7824277170193205499, guid: f7b808648628c03439ae765cdbca4443, type: 3}
       propertyPath: m_Pivot.x
@@ -1481,6 +1489,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7b808648628c03439ae765cdbca4443, type: 3}
+--- !u!114 &645644355977121042 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4841312922337918335, guid: f7b808648628c03439ae765cdbca4443, type: 3}
+  m_PrefabInstance: {fileID: 5465688163780735085}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &2832602316327467158 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7824277170193205499, guid: f7b808648628c03439ae765cdbca4443, type: 3}

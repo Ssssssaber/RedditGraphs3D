@@ -9,11 +9,26 @@ using UnityEngine.UI;
 public class ColorPicker : MonoBehaviour
 {
     public UnityEvent<Color> ColorPickerEvent = new UnityEvent<Color>();
+    [SerializeField] Button colorPickButton;
     [SerializeField] Texture2D colorChart;
     [SerializeField] GameObject chart;
     [SerializeField] RectTransform cursor;
     [SerializeField] Image button;
     [SerializeField] Image cursorColor;
+
+    private void Start()
+    {
+        colorPickButton = GetComponent<Button>();
+    }
+    public void DisableInteraction()
+    {
+        // TODO: alco need to disable child gameobjects
+        colorPickButton.interactable = false;
+    }
+    public void EnableInteraction()
+    {
+        colorPickButton.interactable = true;
+    }
     public void EndDrag(BaseEventData data)
     {
         Color color = PickColor(data);
@@ -34,7 +49,7 @@ public class ColorPicker : MonoBehaviour
     {
         PointerEventData pointer = data as PointerEventData;
         cursor.position = pointer.position;
-        Color pickedColor = colorChart.GetPixel((int)((cursor.localPosition.x + 112) * (colorChart.width / transform.GetChild(0).GetComponent<RectTransform>().rect.width)), (int)(cursor.localPosition.y * ((colorChart.height + 120) / transform.GetChild(0).GetComponent<RectTransform>().rect.height)));
+        Color pickedColor = colorChart.GetPixel((int)((cursor.localPosition.x) * (colorChart.width / transform.GetChild(0).GetComponent<RectTransform>().rect.width)), (int)(cursor.localPosition.y * ((colorChart.height) / transform.GetChild(0).GetComponent<RectTransform>().rect.height)));
         button.color = pickedColor;
         cursorColor.color = pickedColor;
         return pickedColor;

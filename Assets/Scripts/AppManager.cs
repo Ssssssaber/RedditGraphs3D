@@ -12,6 +12,8 @@ using UnityEngine.UI;
 public class AppManager : MonoBehaviour
 {
     public bool UseWebRequest = true;
+    public static Graph3D activeGraph {private set; get;}
+
     [SerializeField]
     private WebRequestDownloader databaseConnector;
     [SerializeField] private Graph3D graph;
@@ -24,23 +26,40 @@ public class AppManager : MonoBehaviour
     private LoadingPanel loadingPanel;
     private void Awake()
     {
+        loadingPanel = LoadingPanel.instance;
+        activeGraph = graph;        
         
+        EventManager.OnDotDataReceived.AddListener(PlotNewDot);
+
+        EventManager.OnStartReceivingData.AddListener(RecetRecivingNewData);
+        EventManager.OnStartReceivingData.AddListener(NotifyReceivingNewData);
+        EventManager.OnStopReceivingData.AddListener(NotifyStopReceivingNewData);
     }
     void Start()
     {
-        loadingPanel = LoadingPanel.instance;
-       
-        EventManager.OnCommentsDownloadStart.AddListener(ShowLoading);
-        EventManager.OnCommentDownloadEnd.AddListener(GetComments);
-        // EventManager.OnCommentsLoaded.AddListener(UIController.instance.DeactivateButton("BOW"));
-        EventManager.OnCommentDownloadEnd.AddListener(NotifyCommentsLoaded);
-        EventManager.OnCommentDownloadEnd.AddListener(ActivateBOW);
-        // EventManager.OnCommentDownloadEnd.AddListener(ActivateTFIDF);
-        EventManager.OnCommentDownloadEnd.AddListener(HideLoading);
-        
         DeactivateBOW();
         DeactivateTFIDF();
-        databaseConnector.DownloadAllComments();
+    }
+
+    private bool reciveNewData = true;
+
+    public void NotifyReceivingNewData()
+    {
+        Notifier.instance.CreateNotificaton("Started receiving new data");
+    }
+    public void NotifyStopReceivingNewData()
+    {
+        Notifier.instance.CreateNotificaton("Stopped receiving new data");
+    }
+    public void RecetRecivingNewData()
+    {
+        reciveNewData = true;
+    }
+
+    private void PlotNewDot(DotInitialInfo dotInitialInfo)
+    {
+        graph.Plot(dotInitialInfo.coords, dotInitialInfo.groupName, reciveNewData, true);
+        reciveNewData = false;
     }
 
     private void ShowLoading()
@@ -55,7 +74,6 @@ public class AppManager : MonoBehaviour
 
     private void NotifyCommentsLoaded()
     {
-        // notificationText.text = $"Notification: {comments.Length} loaded";
         Notifier.instance.CreateNotificaton($"{comments.Length} comments loaded");
     }
 
