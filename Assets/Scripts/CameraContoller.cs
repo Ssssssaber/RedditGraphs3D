@@ -18,13 +18,20 @@ public class CameraController : MonoBehaviour
 
         if (Input.GetMouseButton(1))
         {
+            #if !UNITY_EDITOR && UNITY_WEBGL
+                WebGLInput.captureAllKeyboardInput = true;
+            #endif
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
             Rotation();
             Movement();
         }
         else
-        {
+        {   
+            #if !UNITY_EDITOR && UNITY_WEBGL
+                WebGLInput.captureAllKeyboardInput = false;
+            #endif
+            
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }

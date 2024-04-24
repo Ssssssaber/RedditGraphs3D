@@ -9,7 +9,7 @@ public class FrontendConnector : MonoBehaviour
     {
         #if UNITY_EDITOR 
         
-        keke();
+        // keke();
 
         #endif
     }
@@ -18,7 +18,6 @@ public class FrontendConnector : MonoBehaviour
     {
         StartRecievingData();
         
-        // string j = "{\"type\":\"point message\",\"point\":\"[-6.396451982923883e-07, 0.0296957291794697, 6.0352566615339555e-05]\",\"label\":\"0\"}";
         string[] js = new string[] {
             "{\"type\":\"point message\",\"point\":\"[-6.396451982923883e-07, 0.0296957291794697, 6.0352566615339555e-05]\",\"label\":\"0\"}",
             "{\"type\":\"point message\",\"point\":\"[6.396451982923883e-07, 0.0296957291794697, -6.0352566615339555e-05]\",\"label\":\"0\"}",
@@ -44,8 +43,14 @@ public class FrontendConnector : MonoBehaviour
         }
         StopRecievingData();
     }
+
     public void StartRecievingData()
     {
+        if (isReveivingInformation) 
+        {
+            Notifier.instance.CreateNotificaton("Already recieving data");
+        }
+
         isReveivingInformation = true;
         EventManager.OnStartReceivingData?.Invoke();
     }
@@ -60,6 +65,7 @@ public class FrontendConnector : MonoBehaviour
 
         EventManager.OnDotDataReceived?.Invoke(newDot);
     }
+
     public void StopRecievingData()
     {
         isReveivingInformation = false;

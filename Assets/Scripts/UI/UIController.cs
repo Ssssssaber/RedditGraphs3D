@@ -25,16 +25,7 @@ public class UIController : MonoBehaviour
 
     private void Start()
     {
-        if (buttonBOW == null)
-        {
-            buttonBOW = transform.Find("Panel").Find("ButtonBOW").GetComponent<Button>();
-        }
-        if (buttonTFIDF == null)
-        {
-            buttonTFIDF = transform.Find("Panel").Find("ButtonTFIDF").GetComponent<Button>();
-        }
-        buttons.Add("BOW", buttonBOW);
-        buttons.Add("TFIDF", buttonTFIDF);
+        
     }
 
     public void SetActiveButton(string buttonName, bool active)

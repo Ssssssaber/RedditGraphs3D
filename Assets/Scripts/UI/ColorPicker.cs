@@ -11,7 +11,6 @@ public class ColorPicker : MonoBehaviour
     public UnityEvent<Color> ColorPickerEvent = new UnityEvent<Color>();
     [SerializeField] Button colorPickButton;
     [SerializeField] Texture2D colorChart;
-    [SerializeField] GameObject chart;
     [SerializeField] RectTransform cursor;
     [SerializeField] Image button;
     [SerializeField] Image cursorColor;

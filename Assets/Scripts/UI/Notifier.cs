@@ -8,12 +8,15 @@ public class Notifier : MonoBehaviour
     public static Notifier instance {private set; get;}
     [SerializeField] private RectTransform notificationList;
     [SerializeField] private GameObject notificationGameObject;
+    private GameObject notificationsList;
     
     private void Awake()
     {
+        notificationsList = transform.Find("NotificationPanel").gameObject;
         if (instance == null)
         {
             instance = this;
+            notificationsList.SetActive(false);
         }
         else 
         {
