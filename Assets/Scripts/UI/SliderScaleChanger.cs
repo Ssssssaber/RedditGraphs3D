@@ -33,7 +33,7 @@ public class SliderScaleChanger : MonoBehaviour, IGameUI
     
     
     private float maxScale
-   {
+    {
         get { return _maxScale; }
         set 
         {

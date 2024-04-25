@@ -1598,6 +1598,7 @@ GameObject:
   - component: {fileID: 3361131924905565614}
   - component: {fileID: 2444960637712025183}
   - component: {fileID: 4325447277243085732}
+  - component: {fileID: 5098069801947917049}
   m_Layer: 5
   m_Name: SetScalePanel
   m_TagString: Untagged
@@ -1614,8 +1615,8 @@ RectTransform:
   m_GameObject: {fileID: 7241566091876002352}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3298905031358882999}
   - {fileID: 2562633463224459917}
@@ -1664,6 +1665,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5098069801947917049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7241566091876002352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cdace065eb061e4da51b945427b610a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaleScrollbar: {fileID: 1617118088164434475}
+  currentScaleInput: {fileID: 5224925470331033888}
+  minScaleInput: {fileID: 3149095607763121747}
+  maxScaleInput: {fileID: 1605951992292150737}
 --- !u!1 &7337901887760926464
 GameObject:
   m_ObjectHideFlags: 0

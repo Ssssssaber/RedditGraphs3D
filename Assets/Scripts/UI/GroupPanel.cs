@@ -15,7 +15,7 @@ public class GroupPanel : MonoBehaviour, IGameUI
     [SerializeField] private TMP_InputField sizeScaleInput;
     [SerializeField] private TMP_InputField positionScaleInput;
     [SerializeField] private Toggle visibilityToggle;
-    [SerializeField] public ColorPickerToggle colorPickerToggle;
+    [SerializeField] private ColorPickerToggle colorPickerToggle;
     
     public Action OnAllGroupDotsLoaded;
     public void Setup(string groupName, UnityAction<string> sizeScaleInputAction, 

@@ -7,8 +7,8 @@ using UnityEngine;
 public class LoadingPanel : MonoBehaviour
 {
     public static LoadingPanel instance {private set; get;}
-   [SerializeField] private TMP_Text loadingComment;
-   [SerializeField] private RectTransform mask;
+    [SerializeField] private TMP_Text loadingComment;
+    [SerializeField] private RectTransform mask;
     float originalSize;
     
     private void Awake()
