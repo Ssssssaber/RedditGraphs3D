@@ -12,6 +12,7 @@ public class ColorPickerSingletone : MonoBehaviour
     [SerializeField] private RectTransform cursor;
     [SerializeField] private Image cursorColor;
     [SerializeField] private Texture2D colorChart;
+    [SerializeField] private Button closeButton;
     private ColorPickerToggle currentGroupToggle;
 
     private void Awake()
@@ -19,6 +20,7 @@ public class ColorPickerSingletone : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            closeButton.onClick.AddListener(DisableColorPicker);
             DisableColorPicker();
         }
         else 
@@ -26,6 +28,7 @@ public class ColorPickerSingletone : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
 
     public void StartDrag(BaseEventData data)
     {
@@ -44,7 +47,7 @@ public class ColorPickerSingletone : MonoBehaviour
 
     public void EndDrag(BaseEventData data)
     {
-        DisableColorPicker();
+        // DisableColorPicker();
     }
 
     private Color PickColor(BaseEventData data)
@@ -68,7 +71,6 @@ public class ColorPickerSingletone : MonoBehaviour
         currentGroupToggle = groupToggle;
         gameObject.SetActive(true);
     }
-
     
     public void DisableColorPicker()
     {

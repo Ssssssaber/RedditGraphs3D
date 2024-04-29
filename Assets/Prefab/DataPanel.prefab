@@ -144,6 +144,7 @@ GameObject:
   - component: {fileID: 5985869016465120663}
   - component: {fileID: 2476665420126021272}
   - component: {fileID: 2407848897283081039}
+  - component: {fileID: 1703617798165038976}
   m_Layer: 5
   m_Name: DataPanel
   m_TagString: Untagged
@@ -193,7 +194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.20754719, g: 0.20754719, b: 0.20754719, a: 0.392}
+  m_Color: {r: 0.2924528, g: 0.2924528, b: 0.2924528, a: 0.29411766}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -210,6 +211,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1703617798165038976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5774612332959413460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f2bb814e32f7a841b898511b27b43a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toggleButton: {fileID: 8261716903515805791}
+  objectToToggle: {fileID: 6190164697409227455}
 --- !u!1 &6188406511493705115
 GameObject:
   m_ObjectHideFlags: 0
@@ -361,7 +376,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6928686950411961218
 RectTransform:
   m_ObjectHideFlags: 0
@@ -509,21 +524,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6239228199639188002, guid: 2ace179b8e5531245874e4aacab0882a, type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7317723447889401276, guid: 2ace179b8e5531245874e4aacab0882a, type: 3}
+      propertyPath: m_Color.a
+      value: 0.29411766
+      objectReference: {fileID: 0}
+    - target: {fileID: 7317723447889401276, guid: 2ace179b8e5531245874e4aacab0882a, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7317723447889401276, guid: 2ace179b8e5531245874e4aacab0882a, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7317723447889401276, guid: 2ace179b8e5531245874e4aacab0882a, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7569701616645931357, guid: 2ace179b8e5531245874e4aacab0882a, type: 3}
       propertyPath: m_Name
       value: GroupsPanel
       objectReference: {fileID: 0}
     - target: {fileID: 8508320410190806320, guid: 2ace179b8e5531245874e4aacab0882a, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8508320410190806320, guid: 2ace179b8e5531245874e4aacab0882a, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8911160749139133737, guid: 2ace179b8e5531245874e4aacab0882a, type: 3}
       propertyPath: m_SizeDelta.y
-      value: -212.19339
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -628,6 +663,10 @@ PrefabInstance:
       value: PanelToggle
       objectReference: {fileID: 0}
     - target: {fileID: 3633083993543093596, guid: 3cc4adfd96ed4234db7bb3d4a7de9eca, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3633083993543093596, guid: 3cc4adfd96ed4234db7bb3d4a7de9eca, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 6190164697409227455}
@@ -641,3 +680,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 172722772551822454, guid: 3cc4adfd96ed4234db7bb3d4a7de9eca, type: 3}
   m_PrefabInstance: {fileID: 4669332747329565955}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8261716903515805791 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3633083993543093596, guid: 3cc4adfd96ed4234db7bb3d4a7de9eca, type: 3}
+  m_PrefabInstance: {fileID: 4669332747329565955}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

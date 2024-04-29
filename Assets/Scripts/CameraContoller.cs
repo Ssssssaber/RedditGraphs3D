@@ -5,11 +5,18 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField] private float slowSpeed, normalSpeed, sprintSpeed;
-    [SerializeField] private float sensitivity = 40f;
+    [SerializeField] private float initialSensitivity = 40f;
+    [SerializeField] private float currentSensitivity = 40f;
     private float currentSpeed;
     // Start is called before the first frame update
     void Start()
     {
+        MouseSensitivityChanger.instance.SubscribeToValueChange(ChangeSensitivity);
+    }
+
+    private void ChangeSensitivity(float scale)
+    {
+        currentSensitivity = initialSensitivity * scale;
     }
 
     // Update is called once per frame
@@ -40,7 +47,7 @@ public class CameraController : MonoBehaviour
     private void Rotation()
     {
         Vector3 mouseInput = new Vector3(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"), 0);
-        transform.Rotate(mouseInput * sensitivity * Time.deltaTime * 50);
+        transform.Rotate(mouseInput * currentSensitivity * Time.deltaTime * 50);
         Vector3 eulerRotation = transform.rotation.eulerAngles;
         transform.rotation = Quaternion.Euler(eulerRotation.x, eulerRotation.y, 0);
     }

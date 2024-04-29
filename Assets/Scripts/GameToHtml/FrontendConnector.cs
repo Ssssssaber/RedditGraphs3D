@@ -7,7 +7,7 @@ public class FrontendConnector : MonoBehaviour
     public static bool isReveivingInformation = false;
     private void Start()
     {
-        #if UNITY_EDITOR 
+        #if !UNITY_EDITOR 
         
         // keke();
 

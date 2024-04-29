@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Notifier : MonoBehaviour
+public class Notifier : UIWithToggle
 {
     public static Notifier instance {private set; get;}
     [SerializeField] private RectTransform notificationList;
@@ -23,11 +23,7 @@ public class Notifier : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    
 
     public void CreateNotificaton(string notificationText)
     {

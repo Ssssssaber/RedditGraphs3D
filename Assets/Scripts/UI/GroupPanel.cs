@@ -12,55 +12,78 @@ public class GroupPanel : MonoBehaviour, IGameUI
     // TODO: 
     //add changing group name : event manager
     [SerializeField] private TMP_Text groupNameLabel;
-    [SerializeField] private TMP_InputField sizeScaleInput;
-    [SerializeField] private TMP_InputField positionScaleInput;
+    [SerializeField] private TMP_Text sizeScale;
+    [SerializeField] private TMP_Text positionScale;
+    [SerializeField] private Button changeSizeScaleButton;
+    [SerializeField] private Button changePositionScaleButton;
     [SerializeField] private Toggle visibilityToggle;
     [SerializeField] private ColorPickerToggle colorPickerToggle;
     
+    private UnityAction<float> onSizeScaleChanged;
+    private UnityAction<float> onPositionScaleChanged;
+
     public Action OnAllGroupDotsLoaded;
-    public void Setup(string groupName, UnityAction<string> sizeScaleInputAction, 
-        UnityAction<string> positionScaleInputAction, UnityAction<bool> toggleAction,
+
+    private void Awake()
+    {
+        changeSizeScaleButton.onClick.AddListener(SizeScaleButton);
+        changePositionScaleButton.onClick.AddListener(PositionScaleButton);
+        onSizeScaleChanged += UpdateSizeText;
+        onPositionScaleChanged += UpdatePositionText;
+    }
+
+    public void Setup(string groupName, UnityAction<float> onSizeScaleChanged, 
+        UnityAction<float> onPositionScaleChanged, UnityAction<bool> toggleAction,
         UnityAction<Color> colorChangeAction, Color color)
     {
         SetGroupName(groupName);
-        SetSizeScaleInputAction(sizeScaleInputAction);
-        SetPositionScaleInputAction(positionScaleInputAction);
         SetToggleAction(toggleAction);
-        colorPickerToggle.SetupColorPickerToggle(colorChangeAction, color);
-        // colorPickerToggle.SetButtonColor(color);
-        
+        this.onSizeScaleChanged += onSizeScaleChanged;
+        this.onPositionScaleChanged += onPositionScaleChanged;
+        colorPickerToggle.SetupColorPickerToggle(colorChangeAction, color);        
     }
 
     public void DisableInteraction()
     {
-        sizeScaleInput.interactable = false;
-        positionScaleInput.interactable = false;
+        changePositionScaleButton.interactable = false;
+        changeSizeScaleButton.interactable = false;
         visibilityToggle.interactable = false;
         colorPickerToggle.DisableInteraction();
     }
 
     public void EnableInteraction()
     {
-        sizeScaleInput.interactable = true;
-        positionScaleInput.interactable = true;
+        changePositionScaleButton.interactable = true;
+        changeSizeScaleButton.interactable = true;
         visibilityToggle.interactable = true;
         colorPickerToggle.EnableInteraction();
     }
 
 
-    public void SetGroupName(string groupName)
+    private void SetGroupName(string groupName)
     {
         groupNameLabel.text = groupName;
     }
 
-    public void SetSizeScaleInputAction(UnityAction<string> action)
+    private void UpdateSizeText(float scale)
     {
-        sizeScaleInput.onValueChanged.AddListener(action);
+        sizeScale.text = $"Current: {Math.Round(scale, 2)}";
     }
 
-    public void SetPositionScaleInputAction(UnityAction<string> action)
+    private void UpdatePositionText(float scale)
     {
-        positionScaleInput.onValueChanged.AddListener(action);
+        positionScale.text = $"Current: {Math.Round(scale, 2)}";
+    }
+
+    private void SizeScaleButton()
+    {
+        SetScalePanel.instance.EnableScalePanel(onSizeScaleChanged);
+    }
+
+    private void PositionScaleButton()
+    {
+        
+        SetScalePanel.instance.EnableScalePanel(onPositionScaleChanged);
     }
 
     public void SetToggleAction(UnityAction<bool> action)
